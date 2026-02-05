@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /guru/
+Disallow: /staff/
+Disallow: /bendahara/
+Disallow: /login
+Disallow: /profile
+Disallow: /storage/
