@@ -21,7 +21,7 @@ class TeachingLogPolicy
      */
     public function view(User $user, TeachingLog $teachingLog): bool
     {
-        return $user->isAdmin() || $user->id === $teachingLog->user_id;
+        return $user->isAdmin() || $user->id == $teachingLog->user_id;
     }
 
     /**
@@ -37,7 +37,7 @@ class TeachingLogPolicy
      */
     public function update(User $user, TeachingLog $teachingLog): bool
     {
-        return $user->id === $teachingLog->user_id;
+        return $user->id == $teachingLog->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class TeachingLogPolicy
      */
     public function delete(User $user, TeachingLog $teachingLog): bool
     {
-        return $user->id === $teachingLog->user_id;
+        return $user->id == $teachingLog->user_id;
     }
 
     /**

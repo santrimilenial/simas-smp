@@ -33,6 +33,8 @@
                         <th class="text-left py-3 px-4 font-semibold text-gray-700">Nama</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-700">NIY</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Jabatan</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700">Masa Kerja</th>
                         <th class="text-left py-3 px-4 font-semibold text-gray-700">Total Jurnal</th>
                         <th class="text-center py-3 px-4 font-semibold text-gray-700">Aksi</th>
                     </tr>
@@ -44,6 +46,15 @@
                             <td class="py-3 px-4 font-medium">{{ $guru->name }}</td>
                             <td class="py-3 px-4">{{ $guru->niy }}</td>
                             <td class="py-3 px-4">{{ $guru->email }}</td>
+                            <td class="py-3 px-4 text-sm text-gray-600">{{ $guru->position ?? '-' }}</td>
+                            <td class="py-3 px-4 text-sm">
+                                @if($guru->join_year)
+                                    <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs font-semibold">{{ $guru->years_of_service }} tahun</span>
+                                    <span class="text-gray-400 text-xs block mt-0.5">sejak {{ $guru->join_year }}</span>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
+                            </td>
                             <td class="py-3 px-4">
                                 <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
                                     {{ $guru->teaching_logs_count }}
@@ -82,7 +93,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center py-8 text-gray-500">
+                            <td colspan="8" class="text-center py-8 text-gray-500">
                                 <i class="fas fa-inbox text-4xl mb-2"></i>
                                 <p>Belum ada data guru</p>
                             </td>
@@ -118,6 +129,18 @@
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">No. Telepon</label>
                     <input type="text" name="phone" value="{{ old('phone') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
+                    <textarea name="address" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('address') }}</textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Jabatan</label>
+                    <input type="text" name="position" value="{{ old('position') }}" placeholder="Contoh: Guru Matematika" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Tahun Masuk</label>
+                    <input type="number" name="join_year" value="{{ old('join_year') }}" min="1970" max="{{ date('Y') }}" placeholder="{{ date('Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Password <span class="text-red-500">*</span></label>
@@ -167,6 +190,18 @@
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">No. Telepon</label>
                     <input type="text" name="phone" id="edit_phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
+                    <textarea name="address" id="edit_address" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Jabatan</label>
+                    <input type="text" name="position" id="edit_position" placeholder="Contoh: Guru Matematika" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Tahun Masuk</label>
+                    <input type="number" name="join_year" id="edit_join_year" min="1970" max="{{ date('Y') }}" placeholder="{{ date('Y') }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2">Password Baru</label>
@@ -263,6 +298,9 @@
                 document.getElementById('edit_niy').value = guru.niy;
                 document.getElementById('edit_email').value = guru.email;
                 document.getElementById('edit_phone').value = guru.phone || '';
+                document.getElementById('edit_address').value = guru.address || '';
+                document.getElementById('edit_position').value = guru.position || '';
+                document.getElementById('edit_join_year').value = guru.join_year || '';
                 openModal('modalEditGuru');
             } catch (e) {
                 alert('Terjadi error saat membuka modal edit guru!');

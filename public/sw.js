@@ -1,9 +1,8 @@
-const CACHE_NAME = "jurnal-mengajar-v1";
+const CACHE_NAME = "jurnal-mengajar-v2";
 const OFFLINE_URL = "/offline.html";
 
-// Assets to cache on install
+// Assets to cache on install (only truly static files)
 const STATIC_ASSETS = [
-    "/",
     "/offline.html",
     "/manifest.json",
     "/favicon.ico",
@@ -65,46 +64,52 @@ self.addEventListener("fetch", (event) => {
     }
 
     event.respondWith(
-        caches.match(event.request).then((response) => {
-            if (response) {
-                // Return cached response
-                return response;
-            }
+        // For navigation requests (HTML pages), use network-first strategy
+        event.request.mode === "navigate"
+            ? fetch(event.request)
+                  .then((response) => {
+                      return response;
+                  })
+                  .catch(() => {
+                      return caches.match(OFFLINE_URL);
+                  })
+            : // For other requests (CSS, JS, images), use cache-first strategy
+              caches.match(event.request).then((response) => {
+                  if (response) {
+                      return response;
+                  }
 
-            return fetch(event.request)
-                .then((response) => {
-                    // Check if we received a valid response
-                    if (
-                        !response ||
-                        response.status !== 200 ||
-                        response.type !== "basic"
-                    ) {
-                        return response;
-                    }
+                  return fetch(event.request)
+                      .then((response) => {
+                          if (
+                              !response ||
+                              response.status !== 200 ||
+                              response.type !== "basic"
+                          ) {
+                              return response;
+                          }
 
-                    // Clone the response
-                    const responseToCache = response.clone();
+                          const responseToCache = response.clone();
 
-                    // Cache static assets (CSS, JS, images)
-                    if (
-                        event.request.url.match(
-                            /\.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-                        )
-                    ) {
-                        caches.open(CACHE_NAME).then((cache) => {
-                            cache.put(event.request, responseToCache);
-                        });
-                    }
+                          if (
+                              event.request.url.match(
+                                  /\.(css|js|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+                              )
+                          ) {
+                              caches.open(CACHE_NAME).then((cache) => {
+                                  cache.put(event.request, responseToCache);
+                              });
+                          }
 
-                    return response;
-                })
-                .catch(() => {
-                    // If both cache and network fail, show offline page for navigate requests
-                    if (event.request.mode === "navigate") {
-                        return caches.match(OFFLINE_URL);
-                    }
-                });
-        }),
+                          return response;
+                      })
+                      .catch(() => {
+                          return new Response("Offline", {
+                              status: 503,
+                              statusText: "Service Unavailable",
+                          });
+                      });
+              }),
     );
 });
 

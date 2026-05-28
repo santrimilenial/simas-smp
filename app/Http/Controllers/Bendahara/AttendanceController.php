@@ -38,13 +38,13 @@ class AttendanceController extends Controller
                     ->whereYear('attendances.date', $year)
                     ->whereMonth('attendances.date', $month);
             })
-            ->selectRaw('
-                COUNT(CASE WHEN attendances.status = "present" THEN 1 END) as present_count,
-                COUNT(CASE WHEN attendances.status = "late" THEN 1 END) as late_count,
-                COUNT(CASE WHEN attendances.status = "absent" THEN 1 END) as absent_count,
-                COUNT(CASE WHEN attendances.status = "permission" THEN 1 END) as permission_count,
+            ->selectRaw("
+                COUNT(CASE WHEN attendances.status = 'present' THEN 1 END) as present_count,
+                COUNT(CASE WHEN attendances.status = 'late' THEN 1 END) as late_count,
+                COUNT(CASE WHEN attendances.status = 'absent' THEN 1 END) as absent_count,
+                COUNT(CASE WHEN attendances.status = 'permission' THEN 1 END) as permission_count,
                 SUM(CASE WHEN attendances.teaching_hours IS NOT NULL THEN attendances.teaching_hours ELSE 0 END) as total_teaching_hours
-            ')
+            ")
             ->groupBy(
                 'users.id',
                 'users.name',
@@ -110,11 +110,11 @@ class AttendanceController extends Controller
                     ->whereYear('attendances.date', $year)
                     ->whereMonth('attendances.date', $month);
             })
-            ->selectRaw('
-                COUNT(CASE WHEN attendances.status = "present" THEN 1 END) as present_count,
-                COUNT(CASE WHEN attendances.status = "late" THEN 1 END) as late_count,
+            ->selectRaw("
+                COUNT(CASE WHEN attendances.status = 'present' THEN 1 END) as present_count,
+                COUNT(CASE WHEN attendances.status = 'late' THEN 1 END) as late_count,
                 SUM(CASE WHEN attendances.teaching_hours IS NOT NULL THEN attendances.teaching_hours ELSE 0 END) as total_teaching_hours
-            ')
+            ")
             ->groupBy('users.id', 'users.name', 'users.niy', 'users.email')
             ->orderBy('users.name')
             ->get();

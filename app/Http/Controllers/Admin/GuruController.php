@@ -40,6 +40,9 @@ class GuruController extends Controller
             'email' => $request->email,
             'niy' => $request->niy,
             'phone' => $request->phone,
+            'address' => $request->address,
+            'position' => $request->position,
+            'join_year' => $request->join_year,
             'password' => bcrypt($request->password),
             'role' => 'guru',
         ];
@@ -77,6 +80,9 @@ class GuruController extends Controller
             'email' => $request->email,
             'niy' => $request->niy,
             'phone' => $request->phone,
+            'address' => $request->address,
+            'position' => $request->position,
+            'join_year' => $request->join_year,
         ];
 
         if ($request->filled('password')) {

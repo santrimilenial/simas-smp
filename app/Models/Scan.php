@@ -13,6 +13,7 @@ class Scan extends Model
         'scan_type',
         'location',
         'notes',
+        'condition_report',
     ];
 
     protected $casts = [

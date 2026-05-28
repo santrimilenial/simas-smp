@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ReportController as AdminReport;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\ScanController as AdminScanController;
+use App\Http\Controllers\Admin\ItemReportController;
+use App\Http\Controllers\Admin\GuruInfoController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboard;
 use App\Http\Controllers\Guru\JurnalController;
 use App\Http\Controllers\Guru\ReportController as GuruReport;
@@ -15,16 +17,37 @@ use App\Http\Controllers\Staff\ScanController as StaffScanController;
 use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboard;
 use App\Http\Controllers\Bendahara\AttendanceController as BendaharaAttendance;
 use App\Http\Controllers\Bendahara\SlipGajiController;
+use App\Http\Controllers\Bendahara\KeuanganController;
 use App\Http\Controllers\ChatController;
+
+// UML Diagrams — public route (no auth required)
+Route::get('/uml-diagrams', function () {
+    return response()->file(public_path('uml-diagrams.html'));
+})->name('uml.diagrams');
+
+// Root route - redirect based on authentication & role
+Route::get('/', function () {
+    if (auth()->check()) {
+        $role = auth()->user()->role;
+        return match ($role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'guru' => redirect()->route('guru.dashboard'),
+            'staff' => redirect()->route('staff.scan.index'),
+            'bendahara' => redirect()->route('bendahara.dashboard'),
+            default => redirect()->route('login'),
+        };
+    }
+    return redirect()->route('login');
+});
 
 // Guest Routes
 Route::middleware('guest')->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('login');
-    });
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 });
+
+// Fallback GET logout redirect
+Route::get('/logout', fn() => redirect('/login'));
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
@@ -73,6 +96,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/items/{item}/print', [ItemController::class, 'printBarcode'])->name('items.print');
         Route::resource('staff', StaffController::class);
         Route::get('/scans', [AdminScanController::class, 'index'])->name('scans.index');
+        Route::get('/items-report', [ItemReportController::class, 'index'])->name('items.report');
+        Route::get('/items-report/pdf', [ItemReportController::class, 'exportPdf'])->name('items.report.pdf');
+        Route::get('/items-report/excel', [ItemReportController::class, 'exportExcel'])->name('items.report.excel');
+        
+        // Guru Info
+        Route::get('/guru-info', [GuruInfoController::class, 'index'])->name('guru-info.index');
         
         // Academic Year Management
         Route::resource('academic-years', \App\Http\Controllers\Admin\AcademicYearController::class)->only(['index', 'store', 'update', 'destroy']);
@@ -98,8 +127,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/subjects/active', [\App\Http\Controllers\Guru\SubjectController::class, 'getActive'])->name('subjects.active');
         
         // Tujuan Pembelajaran Management
-        Route::resource('tp', \App\Http\Controllers\Guru\TujuanPembelajaranController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::get('/tp/by-subject', [\App\Http\Controllers\Guru\TujuanPembelajaranController::class, 'getBySubject'])->name('tp.by-subject');
+        Route::resource('tp', \App\Http\Controllers\Guru\TujuanPembelajaranController::class)->except(['show', 'edit', 'create']);
         
        // Attendance Routes
         Route::get('/attendance/checkin', function () {
@@ -121,16 +150,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/attendance/checkout', [\App\Http\Controllers\Guru\AttendanceController::class, 'checkOut'])->name('attendance.checkout');
         Route::get('/attendance/history', [\App\Http\Controllers\Guru\AttendanceController::class, 'history'])->name('attendance.history');
         
-        // Reports
+        // Laporan
         Route::get('/reports', [GuruReport::class, 'index'])->name('reports.index');
         Route::get('/reports/pdf', [GuruReport::class, 'exportPdf'])->name('reports.pdf');
         Route::get('/reports/excel', [GuruReport::class, 'exportExcel'])->name('reports.excel');
+        
+        // Informasi Guru
+        Route::get('/info', fn() => view('guru.info'))->name('info');
     });
     
     // Staff Routes
     Route::middleware('staff')->prefix('staff')->name('staff.')->group(function () {
         Route::get('/scan', [StaffScanController::class, 'index'])->name('scan.index');
         Route::post('/scan', [StaffScanController::class, 'scan'])->name('scan.store');
+        Route::post('/scan/lookup', [StaffScanController::class, 'lookup'])->name('scan.lookup');
         Route::get('/scan/history', [StaffScanController::class, 'history'])->name('scan.history');
     });
 
@@ -151,5 +184,12 @@ Route::middleware('auth')->group(function () {
         Route::patch('/slip-gaji/{slipGaji}/status', [SlipGajiController::class, 'updateStatus'])->name('slip-gaji.update-status');
         Route::delete('/slip-gaji/{slipGaji}', [SlipGajiController::class, 'destroy'])->name('slip-gaji.destroy');
         Route::get('/slip-gaji/{slipGaji}/print', [SlipGajiController::class, 'print'])->name('slip-gaji.print');
+        
+        // Pencatatan Keuangan
+        Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan.index');
+        Route::post('/keuangan', [KeuanganController::class, 'store'])->name('keuangan.store');
+        Route::put('/keuangan/{keuangan}', [KeuanganController::class, 'update'])->name('keuangan.update');
+        Route::delete('/keuangan/{keuangan}', [KeuanganController::class, 'destroy'])->name('keuangan.destroy');
+        Route::get('/keuangan/export/pdf', [KeuanganController::class, 'exportPdf'])->name('keuangan.export-pdf');
     });
 });

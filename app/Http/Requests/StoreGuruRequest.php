@@ -19,6 +19,9 @@ class StoreGuruRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'niy' => ['required', 'string', 'max:50', 'unique:users'],
             'phone' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'position' => ['nullable', 'string', 'max:255'],
+            'join_year' => ['nullable', 'integer', 'min:1970', 'max:' . date('Y')],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }

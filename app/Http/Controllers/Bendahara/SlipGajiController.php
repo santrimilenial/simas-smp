@@ -77,7 +77,7 @@ class SlipGajiController extends Controller
     {
         $request->validate([
             'month' => 'required|integer|min:1|max:12',
-            'year' => 'required|integer|min:2020',
+            'year' => 'required|integer|min:2020|max:' . (date('Y') + 1),
             'teacher_ids' => 'required|array|min:1',
             'teacher_ids.*' => 'exists:users,id',
             'rate_per_hour' => 'required|numeric|min:0',
@@ -203,7 +203,7 @@ class SlipGajiController extends Controller
     {
         $request->validate([
             'month' => 'required|integer|min:1|max:12',
-            'year' => 'required|integer|min:2020',
+            'year' => 'required|integer|min:2020|max:' . (date('Y') + 1),
             'rate_per_hour' => 'required|numeric|min:0',
         ]);
 

@@ -13,10 +13,24 @@ class BendaharaMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->role !== 'bendahara') {
-            abort(403, 'Unauthorized access. Bendahara only.');
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 'bendahara') {
+            return $this->redirectToRoleDashboard(auth()->user()->role);
         }
 
         return $next($request);
+    }
+
+    private function redirectToRoleDashboard(string $role)
+    {
+        return match ($role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'guru' => redirect()->route('guru.dashboard'),
+            'staff' => redirect()->route('staff.scan.index'),
+            default => redirect()->route('login'),
+        };
     }
 }

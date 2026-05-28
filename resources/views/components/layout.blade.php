@@ -195,31 +195,37 @@
                     
                     <!-- Dashboard -->
                     <a href="{{ route('admin.dashboard') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.dashboard') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Dashboard">
-                        <i class="fas fa-home text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-home fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Dashboard</span>
                     </a>
                     
                     <!-- Kelola Guru -->
                     <a href="{{ route('admin.guru.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.guru.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Kelola Guru">
-                        <i class="fas fa-users text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-users fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Kelola Guru</span>
+                    </a>
+                    
+                    <!-- Informasi Guru -->
+                    <a href="{{ route('admin.guru-info.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.guru-info.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Informasi Guru">
+                        <i class="fas fa-id-card fa-fw text-lg w-6 text-center"></i>
+                        <span class="ml-3 text-sm sidebar-text">Informasi Guru</span>
                     </a>
                     
                     <!-- Kelola Staff -->
                     <a href="{{ route('admin.staff.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.staff.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Kelola Staff">
-                        <i class="fas fa-user-tie text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-user-tie fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Kelola Staff</span>
                     </a>
                     
                     <!-- Kelola Kelas -->
                     <a href="{{ route('admin.classes.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.classes.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Kelola Kelas">
-                        <i class="fas fa-chalkboard text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-chalkboard fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Kelola Kelas</span>
                     </a>
                     
                     <!-- Tahun Ajaran -->
                     <a href="{{ route('admin.academic-years.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.academic-years.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Tahun Ajaran">
-                        <i class="fas fa-calendar-alt text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-calendar-alt fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Tahun Ajaran</span>
                     </a>
                     
@@ -227,7 +233,7 @@
                     <div>
                         <button onclick="toggleSubmenu('attendance')" class="w-full flex items-center justify-between px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.attendance.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Absensi">
                             <div class="flex items-center">
-                                <i class="fas fa-calendar-check text-lg min-w-[1.5rem]"></i>
+                                <i class="fas fa-calendar-check fa-fw text-lg w-6 text-center"></i>
                                 <span class="ml-3 text-sm sidebar-text">Absensi</span>
                             </div>
                             <i class="fas fa-chevron-down chevron-icon text-xs sidebar-text" id="attendance-chevron"></i>
@@ -236,15 +242,15 @@
                         <!-- Submenu -->
                         <div id="attendance-submenu" class="submenu {{ request()->routeIs('admin.attendance.*') ? 'open' : '' }}">
                             <a href="{{ route('admin.attendance.daily') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.attendance.daily') ? 'bg-blue-700' : '' }}" title="Laporan Harian">
-                                <i class="far fa-calendar-day text-sm min-w-[1rem]"></i>
+                                <i class="far fa-calendar-day fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Laporan Harian</span>
                             </a>
                             <a href="{{ route('admin.attendance.monthly') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.attendance.monthly') ? 'bg-blue-700' : '' }}" title="Laporan Bulanan">
-                                <i class="far fa-calendar-alt text-sm min-w-[1rem]"></i>
+                                <i class="far fa-calendar-alt fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Laporan Bulanan</span>
                             </a>
                             <a href="{{ route('admin.attendance.settings') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.attendance.settings') ? 'bg-blue-700' : '' }}" title="Pengaturan">
-                                <i class="fas fa-cog text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-cog fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Pengaturan</span>
                             </a>
                         </div>
@@ -252,13 +258,13 @@
                     
                     <!-- Laporan -->
                     <a href="{{ route('admin.reports.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.reports.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Laporan">
-                        <i class="fas fa-file-alt text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-file-alt fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Laporan</span>
                     </a>
                     
                     <!-- Outbox Password Reset -->
                     <a href="{{ route('admin.outbox.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.outbox.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Outbox">
-                        <i class="fas fa-envelope text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-envelope fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Outbox</span>
                         @php
                             $unreadCount = \App\Models\PasswordResetLog::unread()->valid()->count();
@@ -272,7 +278,7 @@
                     <div>
                         <button onclick="toggleSubmenu('inventory')" class="w-full flex items-center justify-between px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('admin.items.*') || request()->routeIs('admin.scans.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Inventory">
                             <div class="flex items-center">
-                                <i class="fas fa-boxes text-lg min-w-[1.5rem]"></i>
+                                <i class="fas fa-boxes fa-fw text-lg w-6 text-center"></i>
                                 <span class="ml-3 text-sm sidebar-text">Inventory</span>
                             </div>
                             <i class="fas fa-chevron-down chevron-icon text-xs sidebar-text" id="inventory-chevron"></i>
@@ -280,13 +286,17 @@
                         
                         <!-- Submenu -->
                         <div id="inventory-submenu" class="submenu {{ request()->routeIs('admin.items.*') || request()->routeIs('admin.scans.*') ? 'open' : '' }}">
-                            <a href="{{ route('admin.items.index') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.items.*') ? 'bg-blue-700' : '' }}" title="Daftar Barang">
-                                <i class="fas fa-box text-sm min-w-[1rem]"></i>
+                            <a href="{{ route('admin.items.index') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.items.index') || request()->routeIs('admin.items.show') || request()->routeIs('admin.items.create') || request()->routeIs('admin.items.edit') ? 'bg-blue-700' : '' }}" title="Daftar Barang">
+                                <i class="fas fa-box fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Daftar Barang</span>
                             </a>
                             <a href="{{ route('admin.scans.index') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.scans.*') ? 'bg-blue-700' : '' }}" title="Riwayat Scan">
-                                <i class="fas fa-qrcode text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-qrcode fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Riwayat Scan</span>
+                            </a>
+                            <a href="{{ route('admin.items.report') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('admin.items.report*') ? 'bg-blue-700' : '' }}" title="Laporan Barang">
+                                <i class="fas fa-chart-pie fa-fw text-sm w-5 text-center"></i>
+                                <span class="ml-2 text-xs">Laporan Barang</span>
                             </a>
                         </div>
                     </div>
@@ -296,25 +306,25 @@
                     
                     <!-- Dashboard -->
                     <a href="{{ route('guru.dashboard') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.dashboard') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Dashboard">
-                        <i class="fas fa-home text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-home fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Dashboard</span>
                     </a>
                     
                     <!-- Mata Pelajaran -->
                     <a href="{{ route('guru.subjects.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.subjects.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Mata Pelajaran">
-                        <i class="fas fa-book-open text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-book-open fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Mata Pelajaran</span>
                     </a>
                     
                     <!-- Tujuan Pembelajaran -->
                     <a href="{{ route('guru.tp.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.tp.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Tujuan Pembelajaran">
-                        <i class="fas fa-list-check text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-list-check fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Tujuan Pembelajaran</span>
                     </a>
                     
                     <!-- Jurnal Mengajar -->
                     <a href="{{ route('guru.jurnal.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.jurnal.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Jurnal Mengajar">
-                        <i class="fas fa-book text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-book fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Jurnal Mengajar</span>
                     </a>
                     
@@ -322,7 +332,7 @@
                     <div>
                         <button onclick="toggleSubmenu('guru-attendance')" class="w-full flex items-center justify-between px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.attendance.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Absensi">
                             <div class="flex items-center">
-                                <i class="fas fa-calendar-check text-lg min-w-[1.5rem]"></i>
+                                <i class="fas fa-calendar-check fa-fw text-lg w-6 text-center"></i>
                                 <span class="ml-3 text-sm sidebar-text">Absensi</span>
                             </div>
                             <i class="fas fa-chevron-down chevron-icon text-xs sidebar-text" id="guru-attendance-chevron"></i>
@@ -331,15 +341,15 @@
                         <!-- Submenu -->
                         <div id="guru-attendance-submenu" class="submenu {{ request()->routeIs('guru.attendance.*') ? 'open' : '' }}">
                             <a href="{{ route('guru.attendance.checkin.form') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('guru.attendance.checkin*') ? 'bg-blue-700' : '' }}" title="Absen Berangkat">
-                                <i class="fas fa-arrow-right-to-bracket text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-arrow-right-to-bracket fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Absen Berangkat</span>
                             </a>
                             <a href="{{ route('guru.attendance.checkout.form') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('guru.attendance.checkout*') ? 'bg-blue-700' : '' }}" title="Absen Pulang">
-                                <i class="fas fa-arrow-right-from-bracket text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-arrow-right-from-bracket fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Absen Pulang</span>
                             </a>
                             <a href="{{ route('guru.attendance.history') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('guru.attendance.history') ? 'bg-blue-700' : '' }}" title="Riwayat Absensi">
-                                <i class="fas fa-history text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-history fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Riwayat Absensi</span>
                             </a>
                         </div>
@@ -347,21 +357,27 @@
                     
                     <!-- Laporan -->
                     <a href="{{ route('guru.reports.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.reports.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Laporan">
-                        <i class="fas fa-file-alt text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-file-alt fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Laporan</span>
+                    </a>
+                    
+                    <!-- Informasi Guru -->
+                    <a href="{{ route('guru.info') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('guru.info') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Informasi Saya">
+                        <i class="fas fa-id-card fa-fw text-lg w-6 text-center"></i>
+                        <span class="ml-3 text-sm sidebar-text">Informasi Saya</span>
                     </a>
                 @elseif(auth()->user()->isStaff())
                     {{-- STAFF MENU --}}
                     
                     <!-- Scan QR Code -->
                     <a href="{{ route('staff.scan.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('staff.scan.index') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Scan QR Code">
-                        <i class="fas fa-qrcode text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-qrcode fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Scan QR Code</span>
                     </a>
                     
                     <!-- Riwayat Scan -->
                     <a href="{{ route('staff.scan.history') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('staff.scan.history') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Riwayat Scan">
-                        <i class="fas fa-history text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-history fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Riwayat Scan</span>
                     </a>
                 @elseif(auth()->user()->isBendahara())
@@ -369,13 +385,13 @@
                     
                     <!-- Dashboard -->
                     <a href="{{ route('bendahara.dashboard') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.dashboard') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Dashboard">
-                        <i class="fas fa-home text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-home fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Dashboard</span>
                     </a>
                     
                     <!-- Rekap Absensi -->
                     <a href="{{ route('bendahara.attendance.monthly') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.attendance.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Rekap Absensi">
-                        <i class="fas fa-calendar-check text-lg min-w-[1.5rem]"></i>
+                        <i class="fas fa-calendar-check fa-fw text-lg w-6 text-center"></i>
                         <span class="ml-3 text-sm sidebar-text">Rekap Absensi</span>
                     </a>
                     
@@ -383,7 +399,7 @@
                     <div>
                         <button onclick="toggleSubmenu('slip-gaji')" class="w-full flex items-center justify-between px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.slip-gaji.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Slip Gaji">
                             <div class="flex items-center">
-                                <i class="fas fa-file-invoice-dollar text-lg min-w-[1.5rem]"></i>
+                                <i class="fas fa-file-invoice-dollar fa-fw text-lg w-6 text-center"></i>
                                 <span class="ml-3 text-sm sidebar-text">Slip Gaji</span>
                             </div>
                             <i class="fas fa-chevron-down chevron-icon text-xs sidebar-text" id="slip-gaji-chevron"></i>
@@ -392,15 +408,21 @@
                         <!-- Submenu -->
                         <div id="slip-gaji-submenu" class="submenu {{ request()->routeIs('bendahara.slip-gaji.*') ? 'open' : '' }}">
                             <a href="{{ route('bendahara.slip-gaji.index') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.slip-gaji.index') ? 'bg-blue-700' : '' }}" title="Daftar Slip Gaji">
-                                <i class="fas fa-list text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-list fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Daftar Slip Gaji</span>
                             </a>
                             <a href="{{ route('bendahara.slip-gaji.create') }}" class="flex items-center py-2 px-12 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.slip-gaji.create') ? 'bg-blue-700' : '' }}" title="Buat Slip Gaji">
-                                <i class="fas fa-plus-circle text-sm min-w-[1rem]"></i>
+                                <i class="fas fa-plus-circle fa-fw text-sm w-5 text-center"></i>
                                 <span class="ml-2 text-xs">Buat Slip Gaji</span>
                             </a>
                         </div>
                     </div>
+                    
+                    <!-- Pencatatan Keuangan -->
+                    <a href="{{ route('bendahara.keuangan.index') }}" class="flex items-center px-6 py-2.5 hover:bg-blue-700 transition {{ request()->routeIs('bendahara.keuangan.*') ? 'bg-blue-700 border-l-4 border-white' : '' }}" title="Pencatatan Keuangan">
+                        <i class="fas fa-money-bill-wave fa-fw text-lg w-6 text-center"></i>
+                        <span class="ml-3 text-sm sidebar-text">Pencatatan Keuangan</span>
+                    </a>
                 @endif
             </nav>
 

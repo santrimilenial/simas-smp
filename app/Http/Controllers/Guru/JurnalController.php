@@ -74,7 +74,7 @@ class JurnalController extends Controller
     public function show(TeachingLog $jurnal)
     {
         // Pastikan jurnal milik guru yang login
-        abort_unless($jurnal->user_id === auth()->id(), 403);
+        abort_unless($jurnal->user_id == auth()->id(), 403);
         
         // Eager load relationship
         $jurnal->load('academicYear');
@@ -85,7 +85,7 @@ class JurnalController extends Controller
     public function edit(TeachingLog $jurnal)
     {
         // Pastikan jurnal milik guru yang login
-        abort_unless($jurnal->user_id === auth()->id(), 403);
+        abort_unless($jurnal->user_id == auth()->id(), 403);
 
         $classes = config('classes.list');
         return view('guru.jurnal.edit', compact('jurnal', 'classes'));
@@ -94,7 +94,7 @@ class JurnalController extends Controller
     public function update(UpdateJurnalRequest $request, TeachingLog $jurnal)
     {
         // Pastikan jurnal milik guru yang login
-        abort_unless($jurnal->user_id === auth()->id(), 403);
+        abort_unless($jurnal->user_id == auth()->id(), 403);
 
         $jurnal->update($request->safe()->only([
             'academic_year_id',
@@ -114,20 +114,40 @@ class JurnalController extends Controller
 
     public function destroy(TeachingLog $jurnal)
     {
-        // Pastikan jurnal milik guru yang login
-        abort_unless($jurnal->user_id === auth()->id(), 403);
+        try {
+            // Pastikan jurnal milik guru yang login
+            if ($jurnal->user_id != auth()->id()) {
+                if (request()->expectsJson() || request()->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Anda tidak memiliki akses untuk menghapus jurnal ini.'
+                    ], 403);
+                }
+                abort(403);
+            }
 
-        $jurnal->delete();
+            $jurnal->delete();
 
-        // Jika request AJAX, return JSON
-        if (request()->expectsJson() || request()->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Jurnal mengajar berhasil dihapus!'
-            ]);
+            // Jika request AJAX, return JSON
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Jurnal mengajar berhasil dihapus!'
+                ]);
+            }
+
+            return redirect()->route('guru.jurnal.index')
+                ->with('success', 'Jurnal mengajar berhasil dihapus!');
+        } catch (\Exception $e) {
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menghapus jurnal: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return redirect()->route('guru.jurnal.index')
+                ->with('error', 'Gagal menghapus jurnal mengajar.');
         }
-
-        return redirect()->route('guru.jurnal.index')
-            ->with('success', 'Jurnal mengajar berhasil dihapus!');
     }
 }

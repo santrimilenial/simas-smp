@@ -2,7 +2,7 @@
     "name": "SIMAS - Jurnal Mengajar",
     "short_name": "SIMAS",
     "description": "Sistem Informasi Manajemen Sekolah - Aplikasi Jurnal Mengajar",
-    "start_url": "/admin/dashboard",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#1e3a5f",
     "theme_color": "#1e3a5f",

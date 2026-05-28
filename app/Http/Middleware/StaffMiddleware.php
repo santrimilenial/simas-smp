@@ -20,9 +20,19 @@ class StaffMiddleware
         }
 
         if (auth()->user()->role !== 'staff') {
-            abort(403, 'Unauthorized action.');
+            return $this->redirectToRoleDashboard(auth()->user()->role);
         }
 
         return $next($request);
+    }
+
+    private function redirectToRoleDashboard(string $role)
+    {
+        return match ($role) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'guru' => redirect()->route('guru.dashboard'),
+            'bendahara' => redirect()->route('bendahara.dashboard'),
+            default => redirect()->route('login'),
+        };
     }
 }

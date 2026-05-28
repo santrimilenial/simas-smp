@@ -31,11 +31,12 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->category ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->location ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                @if($item->condition === 'baik') bg-green-100 text-green-800
-                                @elseif($item->condition === 'rusak ringan') bg-yellow-100 text-yellow-800
-                                @else bg-red-100 text-red-800
-                                @endif">
+                            <span @class([
+                                'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
+                                'bg-green-100 text-green-800' => $item->condition === 'baik',
+                                'bg-yellow-100 text-yellow-800' => $item->condition === 'rusak ringan',
+                                'bg-red-100 text-red-800' => $item->condition === 'rusak berat',
+                            ])>
                                 {{ ucfirst($item->condition) }}
                             </span>
                         </td>

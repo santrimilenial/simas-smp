@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subject;
+use App\Models\TeachingLog;
+use App\Models\TujuanPembelajaran;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -51,7 +53,7 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $subject)
     {
         // Pastikan subject milik guru yang login
-        if ($subject->user_id !== auth()->id()) {
+        if ($subject->user_id != auth()->id()) {
             abort(403);
         }
 
@@ -82,17 +84,51 @@ class SubjectController extends Controller
 
     public function destroy(Subject $subject)
     {
-        // Pastikan subject milik guru yang login
-        if ($subject->user_id !== auth()->id()) {
-            abort(403);
+        try {
+            // Pastikan subject milik guru yang login
+            if ($subject->user_id != auth()->id()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk menghapus mata pelajaran ini.'
+                ], 403);
+            }
+
+            // Cek apakah ada jurnal mengajar yang menggunakan mata pelajaran ini
+            $hasTeachingLogs = TeachingLog::where('user_id', auth()->id())
+                ->where('subject', $subject->name)
+                ->exists();
+
+            if ($hasTeachingLogs) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Mata pelajaran "' . $subject->name . '" tidak dapat dihapus karena masih digunakan di jurnal mengajar.'
+                ], 422);
+            }
+
+            // Cek apakah ada tujuan pembelajaran yang menggunakan mata pelajaran ini
+            $hasTujuanPembelajaran = TujuanPembelajaran::where('user_id', auth()->id())
+                ->where('subject', $subject->name)
+                ->exists();
+
+            if ($hasTujuanPembelajaran) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Mata pelajaran "' . $subject->name . '" tidak dapat dihapus karena masih digunakan di tujuan pembelajaran.'
+                ], 422);
+            }
+
+            $subject->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mata pelajaran berhasil dihapus!'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus mata pelajaran: ' . $e->getMessage()
+            ], 500);
         }
-
-        $subject->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Mata pelajaran berhasil dihapus!'
-        ]);
     }
 
     // API untuk mendapatkan semua mata pelajaran aktif

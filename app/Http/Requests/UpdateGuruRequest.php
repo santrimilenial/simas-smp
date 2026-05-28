@@ -20,6 +20,9 @@ class UpdateGuruRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->guru)],
             'niy' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($this->guru)],
             'phone' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:500'],
+            'position' => ['nullable', 'string', 'max:255'],
+            'join_year' => ['nullable', 'integer', 'min:1970', 'max:' . date('Y')],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ];
     }

@@ -55,6 +55,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal & Waktu</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Barang</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kode</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kondisi Laporan</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe Scan</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lokasi</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Catatan</th>
@@ -73,6 +74,23 @@
                                     {{ $scan->item->code }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    @if($scan->condition_report)
+                                        @php
+                                            $condClass = match($scan->condition_report) {
+                                                'baik' => 'bg-green-100 text-green-800',
+                                                'rusak ringan' => 'bg-yellow-100 text-yellow-800',
+                                                'rusak berat' => 'bg-red-100 text-red-800',
+                                                default => 'bg-gray-100 text-gray-800',
+                                            };
+                                        @endphp
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $condClass }}">
+                                            {{ ucwords($scan->condition_report) }}
+                                        </span>
+                                    @else
+                                        <span class="text-gray-400">-</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <span class="px-2 py-1 text-xs font-semibold rounded-full 
                                         {{ $scan->scan_type === 'camera' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
                                         {{ ucfirst($scan->scan_type) }}
@@ -83,7 +101,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-8 text-center text-sm text-gray-500">
+                                <td colspan="7" class="px-6 py-8 text-center text-sm text-gray-500">
                                     <i class="fas fa-inbox text-4xl text-gray-300 mb-2 block"></i>
                                     <p>Belum ada riwayat scan</p>
                                 </td>

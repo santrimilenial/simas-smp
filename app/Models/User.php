@@ -18,6 +18,9 @@ class User extends Authenticatable
         'niy',
         'phone',
         'avatar',
+        'address',
+        'position',
+        'join_year',
     ];
 
     /**
@@ -95,6 +98,15 @@ class User extends Authenticatable
     public function isBendahara(): bool
     {
         return $this->role === 'bendahara';
+    }
+
+    // Accessors
+    public function getYearsOfServiceAttribute(): ?int
+    {
+        if (!$this->join_year) {
+            return null;
+        }
+        return now()->year - $this->join_year;
     }
 
     // Scopes

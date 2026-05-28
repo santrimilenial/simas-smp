@@ -178,9 +178,11 @@
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
                         required
                     >
-                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        @if($subjects->count() !== 1)
+                            <option value="">-- Pilih Mata Pelajaran --</option>
+                        @endif
                         @foreach($subjects as $subject)
-                            <option value="{{ $subject->name }}" {{ old('subject') == $subject->name ? 'selected' : '' }}>
+                            <option value="{{ $subject->name }}" {{ old('subject') == $subject->name || $subjects->count() === 1 ? 'selected' : '' }}>
                                 {{ $subject->name }}
                             </option>
                         @endforeach
@@ -474,7 +476,23 @@
                             },
                             body: '_method=DELETE&_token=' + csrfToken
                         })
-                        .then(res => res.json())
+                        .then(res => {
+                            if (res.status === 401) {
+                                throw { serverMessage: 'Sesi login telah berakhir. Silakan login kembali.', reload: true };
+                            }
+                            if (res.status === 419) {
+                                throw { serverMessage: 'Sesi telah berakhir. Silakan refresh halaman dan coba lagi.', reload: true };
+                            }
+                            return res.json().then(data => {
+                                if (!res.ok) {
+                                    throw { serverMessage: data.message || 'Gagal menghapus jurnal' };
+                                }
+                                return data;
+                            }).catch(parseError => {
+                                if (parseError.serverMessage) throw parseError;
+                                throw { serverMessage: 'Terjadi kesalahan server. Silakan refresh halaman.' };
+                            });
+                        })
                         .then(data => {
                             if (data.success) {
                                 row.remove();
@@ -487,12 +505,21 @@
                                     showConfirmButton: false
                                 });
                             } else {
-                                Swal.fire('Gagal', data.message, 'error');
+                                Swal.fire('Gagal', data.message || 'Gagal menghapus jurnal', 'error');
                             }
                         })
                         .catch((error) => {
                             console.error('Error:', error);
-                            Swal.fire('Error', 'Terjadi kesalahan server', 'error');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error.serverMessage || 'Terjadi kesalahan server. Silakan refresh halaman.',
+                                showConfirmButton: true,
+                                confirmButtonColor: '#ef4444',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                if (error.reload) window.location.reload();
+                            });
                         });
                     });
                 });
