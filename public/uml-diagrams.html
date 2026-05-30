@@ -647,6 +647,81 @@ flowchart TD
     </div>
   </div>
 
+  <!-- =================== ACTIVITY KELOLA GURU =================== -->
+  <div class="section-container" id="activity-kelola-guru">
+    <div class="section-header">
+      <div class="section-icon green">🔄</div>
+      <div class="section-title">
+        <h2>Activity Diagram — Kelola Guru</h2>
+        <p>Menggambarkan alur proses pengelolaan data guru oleh Admin, mencakup aksi tambah, edit, dan hapus data guru.</p>
+      </div>
+    </div>
+
+    <div class="diagram-card">
+      <div class="diagram-card-header">
+        <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span>Activity — Kelola Guru</span>
+          <button class="btn-download" onclick="downloadDiagram('activity-kelola-guru', 'SIMAS_Activity_Kelola_Guru')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PNG
+          </button>
+        </div>
+      </div>
+      <div class="diagram-body">
+        <div class="mermaid">
+flowchart TD
+    subgraph Admin
+        Start(( )) --> A1["Login Sebagai Admin<br>dan Akses Dashboard<br>Admin"]
+        A1 --> A2["Pilih Menu Kelola<br>Guru"]
+        
+        A3{"Pilih Aksi"}
+        
+        A4["Masukkan Data Guru<br>Baru"]
+        A5["Pilih Data, Ubah Data"]
+        A6["Pilih Data, Konfirmasi<br>Hapus"]
+        A8["Pilih Data, Lihat<br>Detail"]
+        
+        A7["Ditampilkan Menu<br>Kelola Guru"]
+        End((( )))
+    end
+
+    subgraph Sistem
+        S1["Tampilkan Data Guru"]
+        S2["Tampilkan Form<br>Tambah Guru"]
+        S3["Tampilkan Form Guru"]
+        S5["Tampilkan Detail<br>Guru"]
+        S4["Simpan Data"]
+    end
+
+    A2 --> S1
+    S1 --> A3
+    
+    A3 -- Tambah --> S2
+    S2 --> A4
+    A4 --> S4
+    
+    A3 -- Edit --> S3
+    S3 --> A5
+    A5 --> S4
+    
+    A3 -- Hapus --> A6
+    A6 --> S4
+    
+    A3 -- Detail --> A8
+    A8 --> S5
+    S5 --> A7
+    
+    S4 --> A7
+    A7 --> End
+    
+    style Start fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+    style End fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- =================== SEQUENCE =================== -->
   <div class="section-container" id="sequence">
     <div class="section-header">
